@@ -10,7 +10,6 @@
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
 ## Table of Contents
-=================
 <!--ts-->
    * [About](#about)
    * [Example Usage](#example-usage)
