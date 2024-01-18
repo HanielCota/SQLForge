@@ -1,43 +1,37 @@
 # SQLForge
 
-## Descrição do Projeto
-<p align="center">Simplificando interações com bancos de dados usando HikariCP e práticas de código limpo em Java.</p>
+## Project Description
+<p align="center">Simplify interactions with databases using HikariCP and clean code practices in Java.</p>
 
 ## Badges
 ![Java](https://img.shields.io/badge/Java-17-blue?style=for-the-badge&logo=java)
 ![HikariCP](https://img.shields.io/badge/HikariCP-5.1.0-007396?style=for-the-badge&logo=java)
+![Lombok](https://img.shields.io/badge/Lombok-1.18.22-60B045?style=for-the-badge&logo=lombok)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-## Tabela de Conteúdos
+## Table of Contents
 =================
 <!--ts-->
-   * [Sobre](#sobre)
-   * [Exemplo de Uso](#exemplo-de-uso)
-   * [Componentes](#componentes)
+   * [About](#about)
+   * [Example Usage](#example-usage)
+   * [Components](#components)
       * [DatabaseConfig](#databaseconfig)
       * [TableCreator](#tablecreator)
       * [SqlExecutor](#sqlexecutor)
-   * [Configuração](#configuração)
-   * [Dependências](#dependências)
-   * [Licença](#licença)
+   * [Configuration](#configuration)
+   * [Dependencies](#dependencies)
+   * [License](#license)
 <!--te-->
 
-## Sobre
-O SQLForge é uma aplicação Java que simplifica a interação com bancos de dados usando o HikariCP e seguindo práticas de código limpo. O README fornece um exemplo de uso e destaca os principais componentes da aplicação.
+## About
+SQLForge is a Java application that simplifies database interactions using HikariCP and adheres to clean code practices. The README provides a usage example and highlights the main components of the application.
 
-## Exemplo de Uso
+## Example Usage
 
 ```java
-package com.github.hanielcota;
-
-import com.github.hanielcota.sql.config.DatabaseConfig;
-import com.github.hanielcota.sql.operations.SqlExecutor;
-import com.github.hanielcota.sql.operations.TableCreator;
-import com.zaxxer.hikari.HikariDataSource;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ExampleUsage {
+public class ExempleUsage {
 
     public static void main(String[] args) {
         // Configure the database
@@ -59,32 +53,58 @@ public class ExampleUsage {
         dataSource.close();
     }
 
-    // ... (Código continua)
+    private static HikariDataSource configureDataSource() {
+        return new DatabaseConfig()
+                .configureDataSource("jdbc:mysql://localhost:3306/your_database",
+                        "your_username",
+                        "your_password");
+    }
+
+    private static void createTable(HikariDataSource dataSource) {
+        TableCreator tableCreator = new TableCreator(dataSource);
+        tableCreator.createTable("example_table", "id INT PRIMARY KEY, name VARCHAR(255)");
+    }
+
+    private static void executeUpdate(HikariDataSource dataSource) {
+        SqlExecutor sqlExecutor = new SqlExecutor(dataSource);
+        sqlExecutor.executeUpdate("INSERT INTO example_table (id, name) VALUES (?, ?)", 1, "Example");
+    }
+
+    private static String executeQuery(HikariDataSource dataSource) {
+        SqlExecutor sqlExecutor = new SqlExecutor(dataSource);
+        return sqlExecutor.executeQuery(
+                "SELECT name FROM example_table WHERE id = ?",
+                resultSet -> resultSet.next() ? resultSet.getString("name") : null,
+                1);
+    }
+
 ```
 
-## Componentes
+## Components
 
 ### DatabaseConfig
-A classe `DatabaseConfig` fornece métodos para configurar e criar um `DataSource` do HikariCP com propriedades predefinidas.
+The `DatabaseConfig` class provides methods to configure and create a HikariCP `DataSource` with predefined properties.
 
 ### TableCreator
-A classe `TableCreator` permite criar tabelas no banco de dados. Ele valida os parâmetros de entrada e registra quaisquer erros que possam ocorrer durante a criação da tabela.
+The `TableCreator` class allows for creating tables in the database. It validates input parameters and logs any errors that may occur during table creation.
 
 ### SqlExecutor
-A classe `SqlExecutor` fornece métodos para executar atualizações e consultas SQL usando um `DataSource` do HikariCP. Ela gerencia instruções preparadas e lida com exceções SQL.
+The `SqlExecutor` class provides methods to execute SQL updates and queries using a HikariCP `DataSource`. It manages prepared statements and handles SQL exceptions.
 
-## Configuração
+## Configuration
 
-Para usar o SQLForge em seu projeto, inclua a seguinte dependência em seu arquivo de compilação do Gradle:
+To use SQLForge in your project, include the following dependency in your Gradle build file:
 
 ```gradle
 implementation 'com.zaxxer:HikariCP:5.1.0'
+implementation 'org.projectlombok:lombok:1.18.22'
 ```
 
-Sinta-se à vontade para modificar e adaptar os trechos de código fornecidos com base nas necessidades do seu projeto.
+Feel free to modify and adapt the provided code snippets based on your project's needs.
 
-## Dependências
+## Dependencies
 - [HikariCP 5.1.0](https://github.com/brettwooldridge/HikariCP)
+- [Lombok 1.18.22](https://projectlombok.org/)
 
-## Licença
-Este projeto é distribuído sob a licença MIT. Consulte o arquivo [LICENSE](LICENSE) para obter mais detalhes.
+## License
+This project is distributed under the MIT license. See the [LICENSE](LICENSE) file for more details.
