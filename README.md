@@ -1,7 +1,7 @@
 # SQLForge
 
 ## Project Description
-<p align="center">Simplify interactions with databases using HikariCP and clean code practices in Java.</p>
+<p align="center">SQLForge is your essential tool for shaping and managing data effectively. With intuitive features and a user-friendly interface, it simplifies tasks from schema creation to executing advanced queries. Become a master in data manipulation with SQLForge.</p>
 
 ## Badges
 ![Java](https://img.shields.io/badge/Java-17-blue?style=for-the-badge&logo=java)
