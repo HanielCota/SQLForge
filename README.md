@@ -1,39 +1,90 @@
-<body>
+# SQLForge
 
-    <h1>SQLForge</h1>
+## Descrição do Projeto
+<p align="center">Simplificando interações com bancos de dados usando HikariCP e práticas de código limpo em Java.</p>
 
-    <p>SQLForge is a Java application that simplifies database interactions using HikariCP and clean code practices. This README provides an example usage and highlights key components of the application.</p>
+## Badges
+![Java](https://img.shields.io/badge/Java-17-blue?style=for-the-badge&logo=java)
+![HikariCP](https://img.shields.io/badge/HikariCP-5.1.0-007396?style=for-the-badge&logo=java)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-    <h2>Example Usage</h2>
+## Tabela de Conteúdos
+=================
+<!--ts-->
+   * [Sobre](#sobre)
+   * [Exemplo de Uso](#exemplo-de-uso)
+   * [Componentes](#componentes)
+      * [DatabaseConfig](#databaseconfig)
+      * [TableCreator](#tablecreator)
+      * [SqlExecutor](#sqlexecutor)
+   * [Configuração](#configuração)
+   * [Dependências](#dependências)
+   * [Licença](#licença)
+<!--te-->
 
-    <pre><code>
-        <!-- Include your example usage code here -->
-    </code></pre>
+## Sobre
+O SQLForge é uma aplicação Java que simplifica a interação com bancos de dados usando o HikariCP e seguindo práticas de código limpo. O README fornece um exemplo de uso e destaca os principais componentes da aplicação.
 
-    <h2>Components</h2>
+## Exemplo de Uso
 
-    <h3>DatabaseConfig</h3>
+```java
+package com.github.hanielcota;
 
-    <p>The <code>DatabaseConfig</code> class provides methods to configure and create a HikariCP DataSource with predefined properties.</p>
+import com.github.hanielcota.sql.config.DatabaseConfig;
+import com.github.hanielcota.sql.operations.SqlExecutor;
+import com.github.hanielcota.sql.operations.TableCreator;
+import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.slf4j.Slf4j;
 
-    <h3>TableCreator</h3>
+@Slf4j
+public class ExampleUsage {
 
-    <p>The <code>TableCreator</code> class allows you to create tables in the database. It validates input parameters and logs any errors that may occur during table creation.</p>
+    public static void main(String[] args) {
+        // Configure the database
+        HikariDataSource dataSource = configureDataSource();
 
-    <h3>SqlExecutor</h3>
+        // Create a table
+        createTable(dataSource);
 
-    <p>The <code>SqlExecutor</code> class provides methods to execute SQL updates and queries using a HikariCP DataSource. It manages prepared statements and handles SQL exceptions.</p>
+        // Execute an update
+        executeUpdate(dataSource);
 
-    <h2>Getting Started</h2>
+        // Execute a query
+        String result = executeQuery(dataSource);
 
-    <p>To use SQLForge in your project, include the following dependency in your Gradle build file:</p>
+        // Use Lombok logger instead of System.out
+        log.info("Query result: {}", result);
 
-    <pre><code>
-        implementation 'com.zaxxer:HikariCP:5.1.0'
-    </code></pre>
+        // Close the connection pool (optional)
+        dataSource.close();
+    }
 
-    <p>Feel free to modify and adapt the provided code snippets based on your project's needs.</p>
+    // ... (Código continua)
+```
 
-</body>
+## Componentes
 
-</html>
+### DatabaseConfig
+A classe `DatabaseConfig` fornece métodos para configurar e criar um `DataSource` do HikariCP com propriedades predefinidas.
+
+### TableCreator
+A classe `TableCreator` permite criar tabelas no banco de dados. Ele valida os parâmetros de entrada e registra quaisquer erros que possam ocorrer durante a criação da tabela.
+
+### SqlExecutor
+A classe `SqlExecutor` fornece métodos para executar atualizações e consultas SQL usando um `DataSource` do HikariCP. Ela gerencia instruções preparadas e lida com exceções SQL.
+
+## Configuração
+
+Para usar o SQLForge em seu projeto, inclua a seguinte dependência em seu arquivo de compilação do Gradle:
+
+```gradle
+implementation 'com.zaxxer:HikariCP:5.1.0'
+```
+
+Sinta-se à vontade para modificar e adaptar os trechos de código fornecidos com base nas necessidades do seu projeto.
+
+## Dependências
+- [HikariCP 5.1.0](https://github.com/brettwooldridge/HikariCP)
+
+## Licença
+Este projeto é distribuído sob a licença MIT. Consulte o arquivo [LICENSE](LICENSE) para obter mais detalhes.
