@@ -1,10 +1,10 @@
 package com.github.hanielcota.sql.config;
 
-
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 public class DatabaseConfig {
+
     public HikariDataSource configureDataSource(String jdbcUrl, String username, String password) {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(jdbcUrl);
